@@ -5,13 +5,27 @@
   - installation
   - repositories
 
-- block: #Install and enable zerotier-one
+- block: # Install and enable zerotier-one
   - name: Install zerotier-one
     package:
       name: zerotier-one
       state: present
       update_cache: yes
     register: zerotier_client
+
+  - block: # Copy Member Identity if provided
+    - name: Copy Private Identiy
+      become: yes
+      ansible.builtin.copy:
+        src: "{{ zerotier_member_identiy_private }}"
+        dest: /var/lib/zerotier-one/identity.secret
+
+    - name: Copy Public Identiy
+      become: yes
+      ansible.builtin.copy:
+        src: "{{ zerotier_member_identiy_public }}"
+        dest: /var/lib/zerotier-one/identity.public
+      when: zerotier_member_identiy_private is defined and zerotier_member_identiy_public is defined
 
   - name: Start zerotier-one service
     service:

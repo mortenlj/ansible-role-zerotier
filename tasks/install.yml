@@ -1,16 +1,19 @@
 ---
 
-- include_tasks: install/{{ ansible_facts['os_family'] }}.yml
-  tags:
-  - installation
-  - repositories
-
 - block: # Install and enable zerotier-one
-  - name: Install zerotier-one
+
+  - name: Check if zerotier-one is already installed
     package:
       name: zerotier-one
       state: present
-      update_cache: yes
+    check_mode: true
+    register: zerotier_client_installed
+
+  - name: run script if package installed
+    shell: |
+      curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
+      if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | bash; fi
+    when: not zerotier_client_installed.changed 
     register: zerotier_client
 
   - block: # Copy Member Identity if provided

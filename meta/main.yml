@@ -1,5 +1,6 @@
 galaxy_info:
-  author: Marcus Meurs
+  role_name: networking.zerotier
+  author: Jakob Erpf
   description: Install zerotier-one package and add new members to a zerotier network
   company: None
 

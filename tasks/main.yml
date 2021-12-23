@@ -11,7 +11,6 @@
   - name: Re-gather ansible_local facts
     setup: filter=ansible_local
 
-
 - import_tasks: authorize_node.yml
   when:
   - zerotier_api_accesstoken | length > 0

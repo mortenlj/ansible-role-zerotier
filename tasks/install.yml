@@ -28,7 +28,7 @@
       ansible.builtin.copy:
         src: "{{ zerotier_member_identiy_public }}"
         dest: /var/lib/zerotier-one/identity.public
-      when: zerotier_member_identiy_private is defined and zerotier_member_identiy_public is defined
+    when: zerotier_member_identiy_private is defined and zerotier_member_identiy_public is defined
 
   - name: Start zerotier-one service
     service:

@@ -1,9 +1,10 @@
-[![Build Status](https://travis-ci.org/m4rcu5nl/ansible-role-zerotier.svg?branch=master)](https://travis-ci.org/m4rcu5nl/ansible-role-zerotier) [![GitHub issues](https://img.shields.io/github/issues/m4rcu5nl/ansible-role-zerotier.svg)](https://github.com/m4rcu5nl/ansible-role-zerotier/issues)
 
 ZeroTier
 =========
 
 This Ansible role adds the ZeroTier repository and installs the `zerotier-one` package using your system's package manager. Depending on the provided variables this role can also add and authorize new members to (existing) ZeroTier networks, and tell the new member to join the network.
+
+Forked from jakoberpf/ansible-role-zerotier, which again forked from m4rcu5nl/ansible-role-zerotier.
 
 Requirements
 ------------

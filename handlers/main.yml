@@ -19,3 +19,6 @@
   service:
     name: zerotier-one
     enabled: yes
+
+- name: gather facts
+  setup: ~

@@ -27,6 +27,20 @@
         dest: /var/lib/zerotier-one/identity.public
     when: zerotier_member_identiy_private is defined and zerotier_member_identiy_public is defined
 
+  - name: create facts.d
+    file:
+      path: /etc/ansible/facts.d
+      recurse: true
+      state: directory
+
+  - name: Install zerotier custom facts
+    copy:
+      src: zerotier.fact.py
+      dest: /etc/ansible/facts.d/zerotier.fact
+      mode: 0755
+    notify:
+      - gather facts
+
   when:
   - zerotier_repo is not defined or zerotier_repo is succeeded
   - not ansible_check_mode

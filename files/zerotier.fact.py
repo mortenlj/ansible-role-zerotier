@@ -10,6 +10,7 @@ import sys
 class Network:
     status: str
     device: str
+    ip: str
 
 
 def get_node_id():
@@ -18,9 +19,11 @@ def get_node_id():
     return data["address"]
 
 
-def call_zerotier(cmd):
+def call_zerotier(cmd, raw=False):
     try:
         result = subprocess.run(cmd, encoding="utf-8", check=True, capture_output=True)
+        if raw:
+            return result.stdout.strip()
         data = json.loads(result.stdout)
     except subprocess.CalledProcessError as e:
         print("Failed to execute zerotier-cli. Are you sure you are running this as root? The error was: %s", e.output)
@@ -31,7 +34,9 @@ def call_zerotier(cmd):
 def generate_networks():
     cmd = ["zerotier-cli", "-j", "listnetworks"]
     for network in call_zerotier(cmd):
-        yield network['id'], Network(network['status'], network['portDeviceName'])
+        network_id = network['id']
+        ip = call_zerotier(["zerotier-cli", "-j", "get", network_id, "ip"], raw=True)
+        yield network_id, Network(network['status'], network['portDeviceName'], ip)
 
 
 def main():

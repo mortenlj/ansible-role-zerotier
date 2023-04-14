@@ -24,7 +24,7 @@
       headers:
         Authorization: bearer {{ zerotier_api_accesstoken }}
       body:
-        name: "{{ zerotier_member_register_short_hostname | ternary(inventory_hostname_short, inventory_hostname) }}"
+        name: "{{ zerotier_member_register_short_hostname | default(ansible_hostname) }}"
         description: "{{ zerotier_member_description | default() }}"
         config:
           ipAssignments: "{{ zerotier_member_ip_assignments | default() }}"

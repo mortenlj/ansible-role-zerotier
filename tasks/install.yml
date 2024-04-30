@@ -3,7 +3,7 @@
 - block: # Install and enable zerotier-one
 
   - name: run script if package installed
-    shell: |
+    ansible.builtin.shell: |
       curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
       if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | bash; fi
     args:
@@ -28,13 +28,13 @@
     when: zerotier_member_identiy_private is defined and zerotier_member_identiy_public is defined
 
   - name: create facts.d
-    file:
+    ansible.builtin.file:
       path: /etc/ansible/facts.d
       recurse: true
       state: directory
 
   - name: Install zerotier custom facts
-    copy:
+    ansible.builtin.copy:
       src: zerotier.fact.py
       dest: /etc/ansible/facts.d/zerotier.fact
       mode: 0755

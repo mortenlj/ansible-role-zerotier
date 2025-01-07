@@ -25,8 +25,11 @@ def call_zerotier(cmd, raw=False):
         if raw:
             return result.stdout.strip()
         data = json.loads(result.stdout)
-    except subprocess.CalledProcessError as e:
+    except subprocess.SubprocessError as e:
         print("Failed to execute zerotier-cli. Are you sure you are running this as root? The error was: %s", e.output)
+        sys.exit(1)
+    except OSError as e:
+        print("Failed to execute zerotier-cli. Are you sure you are running this as root? The error was: %s", str(e))
         sys.exit(1)
     return data
 
